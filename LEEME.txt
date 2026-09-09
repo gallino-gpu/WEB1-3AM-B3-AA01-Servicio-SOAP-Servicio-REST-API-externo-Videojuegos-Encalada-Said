@@ -1,652 +1,1487 @@
-Videojuegos SOAP
+GAMECORE
 
-Proyecto desarrollado para la asignatura Programación Web 1.
+Integración de servicios SOAP/REST, Angular y API externa
 
-Descripción
+<div align="center">
 
-El proyecto implementa un sistema de gestión de inventario de videojuegos mediante una aplicación web Angular, un servicio SOAP desarrollado con ASP.NET Core y CoreWCF, y una base de datos SQL Server. Entity Framework Core se utiliza para consultar y modificar la información almacenada.
+Proyecto de Programación Web I — Tercero A Matutino
 
-Cada producto representa un videojuego con nombre, descripción, precio, stock, estado y categoría. El stock corresponde a la cantidad de unidades disponibles; las categorías agrupan los videojuegos en Acción, Deportes, Estrategia, Rol y Terror.
+Sistema web para administrar videojuegos, categorías y movimientos de inventario mediante una arquitectura integrada con SOAP, REST, Angular, SQL Server y la API pública CheapShark.
 
-El servicio permite consultar categorías y productos, buscar un producto por su identificador, registrar, actualizar y eliminar productos, y realizar búsquedas por rango de precios o categoría. Las operaciones pueden probarse directamente en Postman. La interfaz Angular permite administrar el inventario desde el navegador y utiliza un diseño oscuro con detalles verdes.
 
-Tecnologías utilizadas
 
-Tecnología o herramienta
 
-Uso en el proyecto
 
-C# y ASP.NET Core
 
-Desarrollo y ejecución del backend.
 
-CoreWCF
 
-Publicación del servicio SOAP.
-
-SOAP 1.1 y XML
-
-Formato de mensajes entre clientes y backend.
-
-Entity Framework Core
-
-Acceso a las tablas de SQL Server.
-
-SQL Server
-
-Almacenamiento de categorías y productos.
-
-SQL Server Management Studio
-
-Administración y respaldo de la base.
-
-Angular y TypeScript
-
-Lógica y componentes del frontend.
-
-HTML y CSS
-
-Estructura y diseño de la interfaz.
-
-Bootstrap
-
-Estilos y distribución de componentes visuales.
-
-SweetAlert2
-
-Alertas y confirmaciones.
-
-Node.js y npm
-
-Instalación de dependencias y herramientas de Angular.
-
-Postman
-
-Pruebas independientes de las operaciones SOAP.
-
-Visual Studio
-
-Edición y ejecución del backend.
-
-Visual Studio Code
-
-Edición y ejecución del frontend.
-
-Los paquetes NuGet principales son CoreWCF.Http, CoreWCF.Primitives, Microsoft.EntityFrameworkCore.SqlServer y Microsoft.EntityFrameworkCore.Tools. El frontend también incluye las dependencias de Angular Material y animaciones instaladas durante el desarrollo. Las versiones concretas están registradas en el archivo .csproj del backend y en package.json/package-lock.json del frontend.
-
-Requisitos previos
-
-Una instancia de SQL Server en funcionamiento y SQL Server Management Studio.
-
-Visual Studio con las herramientas de desarrollo ASP.NET y el SDK de .NET compatible con el TargetFramework indicado en VideojuegosSOAP.csproj.
-
-Node.js y npm compatibles con la versión de Angular declarada en package.json.
-
-Visual Studio Code o un editor equivalente.
-
-Postman para realizar las pruebas SOAP.
-
-Conexión a Internet durante la restauración inicial de los paquetes NuGet y npm.
-
-No es necesario instalar versiones nuevas de todos los paquetes: se deben restaurar las dependencias declaradas en el proyecto.
-
-Estructura de la entrega
-
-La carpeta principal se denomina Proyecto_VideojuegosSOAP.
-
-Ubicación relativa a la carpeta principal
+</div>
 
 Contenido
 
-01_Base_de_Datos/Pro_videojuegosSOAP.bak
+Descripción general
 
-Respaldo completo de SQL Server.
+Objetivos
 
-01_Base_de_Datos/Pro_videojuegosSOAP.sql
+Arquitectura del sistema
 
-Script de estructura y datos exportados.
+Tecnologías utilizadas
 
-02_Backend_VisualStudio/VideojuegosSOAP.sln
+Funcionalidades
 
-Solución para abrir en Visual Studio.
-
-02_Backend_VisualStudio/VideojuegosSOAP/
-
-Código fuente del backend y archivo .csproj.
-
-03_Postman/VideojuegosSOAP.postman_collection.json
-
-Colección de solicitudes SOAP.
-
-04_Frontend_Angular/VideojuegosSOAPA-app/
-
-Código fuente y configuración de Angular.
-
-README.md
-
-Documentación e instrucciones de ejecución.
-
-Si la solución está guardada dentro de una carpeta adicional, se debe abrir el archivo VideojuegosSOAP.sln que contiene la entrega, conservando la relación de carpetas con su proyecto. Si Visual Studio la guardó en formato .slnx, se abre ese archivo equivalente.
-
-Archivos principales del backend
-
-Archivo, dentro del proyecto VideojuegosSOAP
-
-Función
-
-Models/Categoria.cs
-
-Modelo de categoría.
-
-Models/Producto.cs
-
-Modelo de producto.
-
-Data/VideojuegosDBContext.cs
-
-Contexto de Entity Framework y conjuntos Categorias/Productos.
-
-Services/IProductoService.cs
-
-Contrato que declara las operaciones SOAP.
-
-Services/ProductoService.cs
-
-Implementación de las consultas y del CRUD.
-
-appsettings.json
-
-Configuración y cadena de conexión.
-
-Program.cs
-
-Registro de servicios, contexto, endpoint SOAP, WSDL y CORS.
-
-Properties/launchSettings.json
-
-Perfiles de ejecución y puertos locales.
-
-VideojuegosSOAP.csproj
-
-Framework de destino y dependencias NuGet.
-
-Archivos principales del frontend
-
-Archivo, dentro de VideojuegosSOAPA-app
-
-Función
-
-src/app/model/producto.model.ts
-
-Estructura de los productos en TypeScript.
-
-src/app/model/categoria.model.ts
-
-Estructura de las categorías en TypeScript.
-
-src/app/services/producto.ts
-
-Envío de XML SOAP e interpretación de las respuestas.
-
-src/app/app.ts
-
-Carga de datos, formularios, CRUD y filtros.
-
-src/app/app.html
-
-Estructura visual y enlaces con las propiedades del componente.
-
-src/app/app.css
-
-Diseño del componente principal.
-
-src/styles.css
-
-Estilos globales e importación de Bootstrap.
-
-src/app/app-module.ts
-
-Registro del componente, FormsModule, HttpClient y animaciones.
-
-src/app/app-routing-module.ts
-
-Configuración del enrutamiento.
-
-angular.json
-
-Configuración de construcción y ejecución.
-
-package.json y package-lock.json
-
-Dependencias y versiones del frontend.
+Estructura del repositorio
 
 Base de datos
 
-Nombre: Pro_videojuegosSOAP.
+Requisitos previos
 
-Tabla Categorias
+Configuración inicial
+
+Orden de ejecución
+
+Servicio SOAP
+
+Servicio REST
+
+Frontend Angular
+
+API externa CheapShark
+
+Comparación local y externa
+
+Pruebas con Postman
+
+Validaciones
+
+Pruebas funcionales
+
+Solución de problemas
+
+Preparación de la entrega
+
+Guion sugerido para el video
+
+Autor
+
+Descripción general
+
+GameCore es una aplicación web orientada a la administración de un catálogo de videojuegos y al control de su inventario.
+
+El sistema integra dos proyectos backend independientes y un único frontend:
+
+VideojuegosSOAP: administra categorías y productos mediante mensajes XML.
+
+VideojuegosREST: administra movimientos de inventario mediante solicitudes HTTP y respuestas JSON.
+
+VideojuegosSOAPA-app: aplicación Angular que consume ambos servicios.
+
+CheapShark API: fuente pública externa para consultar ofertas reales de videojuegos.
+
+Los servicios SOAP y REST utilizan la misma base de datos de SQL Server, denominada Pro_videojuegosSOAP. De esta manera, una entrada o salida registrada mediante REST actualiza el stock del producto que también se consulta desde SOAP.
+
+La interfaz utiliza un diseño oscuro de estilo Matrix/Gamer y organiza las funcionalidades en cuatro vistas:
+
+Página principal.
+
+Productos SOAP.
+
+Inventario REST.
+
+API externa y comparador.
+
+Objetivos
+
+Objetivo general
+
+Construir una interfaz web en Angular que consuma e integre un servicio SOAP, una API REST y una API pública externa relacionada con videojuegos.
+
+Objetivos específicos
+
+Administrar categorías y productos mediante SOAP.
+
+Registrar entradas y salidas de inventario mediante REST.
+
+Mantener actualizado el stock de cada producto.
+
+Mostrar los datos locales y externos de manera diferenciada.
+
+Consultar ofertas reales desde una API pública.
+
+Comparar un producto local con un videojuego externo.
+
+Implementar formularios, validaciones, estados de carga y mensajes de error.
+
+Permitir la navegación entre las diferentes funciones desde un solo frontend.
+
+Arquitectura del sistema
+
+flowchart TD
+    A["Usuario"] --> B["Angular :4200"]
+    B --> C["Servicio SOAP :5171"]
+    B --> D["API REST :5182"]
+    B --> E["CheapShark API"]
+    C --> F[("SQL Server\nPro_videojuegosSOAP")]
+    D --> F
+
+Flujo de datos
+
+Origen
+
+Tecnología
+
+Datos
+
+Formato
+
+Base de datos local
+
+SQL Server
+
+Categorías, productos y movimientos
+
+Tablas relacionales
+
+VideojuegosSOAP
+
+CoreWCF
+
+Categorías y productos
+
+XML/SOAP
+
+VideojuegosREST
+
+ASP.NET Core Web API
+
+Movimientos de inventario
+
+JSON/REST
+
+CheapShark
+
+API pública
+
+Ofertas, imágenes, precios y valoraciones
+
+JSON
+
+VideojuegosSOAPA-app
+
+Angular
+
+Presentación integrada
+
+HTML, CSS y TypeScript
+
+Tecnologías utilizadas
+
+Backend SOAP
+
+C#.
+
+ASP.NET Core.
+
+CoreWCF.
+
+Entity Framework Core.
+
+SQL Server.
+
+XML y SOAP.
+
+Backend REST
+
+C#.
+
+.NET 10.
+
+ASP.NET Core Web API.
+
+Entity Framework Core SQL Server 10.0.11.
+
+Microsoft.AspNetCore.OpenApi 10.0.9.
+
+JSON y REST.
+
+Frontend
+
+Angular.
+
+TypeScript.
+
+HTML5.
+
+CSS3.
+
+Bootstrap.
+
+SweetAlert2.
+
+HttpClient.
+
+Formularios con ngModel.
+
+Herramientas
+
+Visual Studio.
+
+Visual Studio Code.
+
+SQL Server Management Studio.
+
+Postman.
+
+Git y GitHub.
+
+Node.js y npm.
+
+API pública
+
+CheapShark API.
+
+No requiere clave API para las consultas implementadas.
+
+Funcionalidades
+
+Página principal
+
+Navegación hacia SOAP, REST y API externa.
+
+Indicadores de productos, stock, entradas y salidas.
+
+Presentación visual de la arquitectura del proyecto.
+
+Diseño adaptable a escritorio y dispositivos móviles.
+
+Módulo SOAP
+
+Obtener categorías.
+
+Obtener productos.
+
+Obtener un producto por ID.
+
+Agregar productos.
+
+Actualizar productos.
+
+Eliminar productos.
+
+Filtrar productos por categoría.
+
+Filtrar productos por rango de precios.
+
+Mostrar categoría, precio, stock y estado.
+
+Módulo REST
+
+Obtener la lista de movimientos.
+
+Obtener un movimiento por ID.
+
+Registrar movimientos de entrada.
+
+Registrar movimientos de salida.
+
+Guardar un movimiento indicando su tipo.
+
+Actualizar movimientos.
+
+Eliminar movimientos.
+
+Aumentar o disminuir automáticamente el stock.
+
+Revertir y recalcular el stock al actualizar o eliminar.
+
+API externa
+
+Consultar ofertas reales de videojuegos.
+
+Buscar videojuegos por título.
+
+Mostrar imagen, precio normal y precio de oferta.
+
+Mostrar descuento, valoración y tienda.
+
+Abrir la oferta externa en una pestaña nueva.
+
+Presentar estados de carga, error y resultados vacíos.
+
+Comparador
+
+Seleccionar un videojuego desde una tarjeta externa.
+
+Buscar una coincidencia en el catálogo local.
+
+Permitir cambiar manualmente el producto local.
+
+Mostrar los dos productos lado contra lado.
+
+Comparar precio local y precio externo.
+
+Calcular la diferencia entre ambos precios.
+
+Indicar cuál de las dos opciones tiene el menor precio.
+
+Mantener claramente separados los datos propios y externos.
+
+Estructura del repositorio
+
+Proyecto-Videojuegos/
+│
+├── ServiciosSOAP/
+│   └── VideojuegosSOAP/
+│       ├── VideojuegosSOAP.sln
+│       ├── Controllers/
+│       ├── Data/
+│       ├── Models/
+│       ├── Services/
+│       ├── appsettings.json
+│       └── Program.cs
+│
+├── ServiciosREST/
+│   └── VideojuegosREST/
+│       ├── Controllers/
+│       ├── Data/
+│       ├── DTOs/
+│       ├── Models/
+│       ├── Services/
+│       ├── Properties/
+│       ├── VideojuegosREST.csproj
+│       ├── appsettings.json
+│       └── Program.cs
+│
+├── FrontendAngular/
+│   └── VideojuegosSOAPA-app/
+│       ├── src/
+│       │   └── app/
+│       │       ├── model/
+│       │       ├── services/
+│       │       ├── app.ts
+│       │       ├── app.html
+│       │       └── app.css
+│       ├── angular.json
+│       ├── package.json
+│       └── package-lock.json
+│
+├── SQL/
+│   ├── Pro_videojuegosSOAP.sql
+│   └── Pro_videojuegosSOAP.bak
+│
+├── Postman/
+│   └── VideojuegosSOAP.postman_collection.json
+│
+├── Evidencias/
+│   ├── SOAP/
+│   ├── REST/
+│   └── Angular/
+│
+├── .gitignore
+└── README.md
+
+La estructura puede adaptarse a los nombres reales de las carpetas, pero SOAP, REST, Angular, SQL y Postman deben permanecer claramente separados.
+
+Base de datos
+
+Nombre
+
+Pro_videojuegosSOAP
+
+Tablas
+
+Categorias
 
 Campo
-
-Tipo SQL
 
 Descripción
 
 IdCategoria
 
-INT IDENTITY(1,1)
-
-Clave primaria autogenerada.
+Clave primaria de la categoría
 
 Nombre
 
-VARCHAR(100)
-
-Nombre obligatorio de la categoría.
+Nombre de la categoría
 
 Descripcion
 
-VARCHAR(250), admite NULL
-
-Descripción de la categoría.
+Información descriptiva
 
 Estado
 
-BIT
+Indica si se encuentra activa
 
-Estado activo o inactivo; valor predeterminado 1.
-
-Tabla Productos
+Productos
 
 Campo
-
-Tipo SQL
 
 Descripción
 
 IdProducto
 
-INT IDENTITY(1,1)
-
-Clave primaria autogenerada.
+Clave primaria del producto
 
 Nombre
 
-VARCHAR(150)
-
-Nombre obligatorio del videojuego.
+Nombre del videojuego
 
 Descripcion
 
-VARCHAR(300), admite NULL
-
-Descripción del videojuego.
+Descripción del videojuego
 
 Precio
 
-DECIMAL(10,2)
-
-Precio con dos decimales, no negativo.
+Precio registrado localmente
 
 Stock
 
-INT
-
-Cantidad de unidades disponibles, no negativa.
+Cantidad disponible
 
 Estado
 
-BIT
-
-Estado activo o inactivo; valor predeterminado 1.
+Indica si el producto está activo
 
 IdCategoria
 
-INT
+Clave foránea hacia Categorias
 
-Clave foránea hacia Categorias.IdCategoria.
+MovimientoInventario
 
-La relación es de uno a muchos: una categoría puede tener varios productos, mientras que cada producto pertenece a una categoría. SQL Server verifica la relación mediante una clave foránea. Los identificadores se generan automáticamente y las restricciones CHECK impiden precios y cantidades de stock negativos.
+Campo
 
-Los datos iniciales incluyen cinco categorías y videojuegos como God of War Ragnarök, EA Sports FC 26, Age of Empires IV, Elden Ring, Resident Evil 4 y Forza Horizon 5. Los precios son datos de prueba académicos, no precios comerciales verificados. El número de registros del respaldo puede variar por las pruebas de inserción y eliminación realizadas.
+Descripción
 
-Instrucciones de instalación y uso
+IdMovimiento
 
-1. Extraer el proyecto
+Clave primaria del movimiento
 
-Extraer completamente el ZIP en una carpeta local antes de abrir la solución o ejecutar comandos. No trabajar directamente dentro del archivo comprimido. Usar una ruta sencilla, sin el carácter #; por ejemplo, C:\CSharp\Proyecto_VideojuegosSOAP.
+IdProducto
 
-2. Preparar la base de datos
+Clave foránea hacia Productos
 
-Abrir SQL Server Management Studio y conectarse a la instancia que se utilizará. Elegir solamente una de las siguientes alternativas.
+TipoMovimiento
 
-Alternativa A: restaurar el respaldo .bak
+ENTRADA o SALIDA
 
-Clic derecho sobre Bases de datos y seleccionar Restaurar base de datos.
+Cantidad
 
-Seleccionar Dispositivo y agregar 01_Base_de_Datos/Pro_videojuegosSOAP.bak.
+Unidades ingresadas o retiradas
 
-Verificar que el destino sea Pro_videojuegosSOAP.
+FechaMovimiento
 
-Revisar que las ubicaciones de los archivos de datos y registro sean válidas en el equipo de destino.
+Fecha generada por SQL Server
 
-Confirmar y esperar el mensaje de restauración completada.
+Observacion
 
-El servicio de SQL Server debe tener acceso al archivo de respaldo. Un respaldo de una versión más reciente de SQL Server no puede restaurarse directamente en una versión anterior. Si existe una incompatibilidad, utilizar el script y revisar su compatibilidad con el servidor de destino.
+Descripción opcional del movimiento
 
-Alternativa B: ejecutar el script .sql
+Diagrama de relaciones
 
-Abrir 01_Base_de_Datos/Pro_videojuegosSOAP.sql en SQL Server Management Studio.
+erDiagram
+    CATEGORIAS ||--o{ PRODUCTOS : contiene
+    PRODUCTOS ||--o{ MOVIMIENTO_INVENTARIO : registra
 
-Revisar las instrucciones CREATE DATABASE, las rutas físicas y el nivel de compatibilidad, si aparecen en el script exportado.
+    CATEGORIAS {
+        int IdCategoria PK
+        string Nombre
+        string Descripcion
+        boolean Estado
+    }
 
-Ajustar las rutas o configuraciones dependientes del equipo de origen cuando sea necesario.
+    PRODUCTOS {
+        int IdProducto PK
+        string Nombre
+        string Descripcion
+        decimal Precio
+        int Stock
+        boolean Estado
+        int IdCategoria FK
+    }
 
-Ejecutar el script en la instancia seleccionada.
+    MOVIMIENTO_INVENTARIO {
+        int IdMovimiento PK
+        int IdProducto FK
+        string TipoMovimiento
+        int Cantidad
+        datetime FechaMovimiento
+        string Observacion
+    }
 
-Actualizar el Explorador de objetos y comprobar la base y las tablas.
+Creación de la base
 
-No ejecutar ambas alternativas sobre la misma base ni repetir el script indiscriminadamente. Si ya existe una base con ese nombre, respaldarla y revisar la situación antes de sobrescribir datos.
+Existen dos alternativas:
 
-Para comprobar los registros:
+Alternativa 1: ejecutar el script
 
-USE Pro_videojuegosSOAP;
-GO
+Abrir SQL Server Management Studio.
 
-SELECT * FROM dbo.Categorias;
-SELECT * FROM dbo.Productos;
+Conectarse a la instancia de SQL Server.
 
-3. Configurar la conexión del backend
+Abrir SQL/Pro_videojuegosSOAP.sql.
 
-Abrir VideojuegosSOAP.sln en Visual Studio. En el proyecto, revisar appsettings.json:
+Ejecutar el script completo.
+
+Confirmar que se crearon las tres tablas y sus relaciones.
+
+Alternativa 2: restaurar el respaldo
+
+Abrir SQL Server Management Studio.
+
+Seleccionar Databases.
+
+Elegir Restore Database.
+
+Seleccionar el archivo Pro_videojuegosSOAP.bak.
+
+Restaurar la base con el nombre Pro_videojuegosSOAP.
+
+Requisitos previos
+
+Antes de ejecutar el proyecto se necesita:
+
+Windows 10 u 11.
+
+SQL Server.
+
+SQL Server Management Studio.
+
+Visual Studio con desarrollo web de ASP.NET instalado.
+
+.NET 10 SDK para el proyecto REST.
+
+Visual Studio Code.
+
+Node.js y npm.
+
+Angular CLI.
+
+Postman.
+
+Git, si se clonará el repositorio.
+
+Conexión a Internet para consultar CheapShark.
+
+Verificar instalaciones
+
+dotnet --version
+node --version
+npm --version
+ng version
+git --version
+
+Si Angular CLI no está instalado:
+
+npm install -g @angular/cli
+
+Configuración inicial
+
+Cadena de conexión
+
+Los proyectos VideojuegosSOAP y VideojuegosREST deben conectarse a la misma base de datos.
+
+Revisar appsettings.json en los dos backends:
 
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "AllowedHosts": "*",
   "ConnectionStrings": {
-    "VideojuegosConnection": "Server=localhost;Database=Pro_videojuegosSOAP;Trusted_Connection=True;TrustServerCertificate=True;"
+    "VideojuegosConnection": "Server=TU_SERVIDOR;Database=Pro_videojuegosSOAP;Trusted_Connection=True;TrustServerCertificate=True;"
   }
 }
 
-Cambiar solamente el valor situado después de Server= por el nombre exacto utilizado para conectarse en SQL Server Management Studio. No colocar comillas adicionales dentro de la cadena.
+Reemplazar TU_SERVIDOR por el nombre real mostrado en SQL Server Management Studio.
 
-Ejemplos de servidor dentro de JSON:
+Ejemplos habituales:
 
-Server=localhost;
-Server=.;
-Server=NOMBRE_DEL_EQUIPO;
-Server=NOMBRE_DEL_EQUIPO\\SQLEXPRESS;
+.
+localhost
+NOMBRE-PC\SQLEXPRESS
 
-En una instancia con nombre se escriben dos barras invertidas dentro de JSON para representar una sola. Mantener Database=Pro_videojuegosSOAP y la clave VideojuegosConnection, porque Program.cs utiliza esa clave para obtener la conexión.
+No publicar usuarios, contraseñas, tokens ni cadenas de conexión privadas en GitHub.
 
-Trusted_Connection=True utiliza la autenticación de Windows: la cuenta que ejecuta el backend debe tener permisos en SQL Server. Si se requiere autenticación SQL, la cadena debe adaptarse a esa configuración; no se deben publicar contraseñas en la entrega o en un repositorio público. TrustServerCertificate=True forma parte de la configuración local de desarrollo, no de una recomendación de seguridad para producción.
+Direcciones utilizadas
 
-4. Restaurar dependencias y ejecutar el backend
-
-Esperar a que Visual Studio restaure los paquetes NuGet. Si no lo hace, utilizar Restaurar paquetes NuGet desde la solución.
-
-Compilar la solución con Ctrl + Shift + B y corregir cualquier error antes de ejecutar.
-
-Seleccionar el perfil http.
-
-Ejecutar con Ctrl + F5 o con el botón de inicio.
-
-Mantener el backend ejecutándose durante las pruebas de Postman y Angular.
-
-El perfil http de Properties/launchSettings.json utiliza el puerto 5171.
-
-Recurso
+Aplicación
 
 Dirección
 
-Endpoint SOAP
+Servicio SOAP
 
 http://localhost:5171/ProductoService.svc
 
-Documento WSDL
+WSDL SOAP
 
 http://localhost:5171/ProductoService.svc?wsdl
 
-Abrir el WSDL en el navegador para comprobar que el servicio publica sus operaciones y tipos. El WSDL no demuestra por sí solo que la base esté conectada; esto se comprueba al ejecutar una consulta SOAP.
+API REST
 
-La dirección /ProductoService.svc se registra en Program.cs mediante BasicHttpBinding; no requiere un archivo físico .svc. La raíz http://localhost:5171 puede mostrar un 404 porque no es la página de la aplicación.
+http://localhost:5182/api/MovimientosInventario
 
-5. Importar y probar la colección de Postman
+Angular
 
-Abrir Postman y seleccionar Import.
+http://localhost:4200
 
-Importar 03_Postman/VideojuegosSOAP.postman_collection.json.
+CheapShark
 
-Abrir la colección VideojuegosSOAP.
+https://www.cheapshark.com/api/1.0/deals
 
-Verificar el método POST y la dirección del endpoint.
+Si Visual Studio asigna otro puerto, también se debe actualizar la URL correspondiente en los servicios de Angular y en Postman.
 
-Ejecutar primero Obtener Categorías y Obtener Productos.
+CORS
 
-Configuración de una solicitud para obtener productos:
+La API REST debe permitir solicitudes desde:
 
-Método: POST
-URL: http://localhost:5171/ProductoService.svc
+http://localhost:4200
 
-Header
+El middleware de CORS debe ejecutarse antes de mapear los controladores.
 
-Valor
+Orden de ejecución
 
-Content-Type
+Para evitar errores de conexión, seguir este orden:
 
-text/xml;charset=utf-8
+Iniciar SQL Server.
 
-SOAPAction
+Crear o restaurar Pro_videojuegosSOAP.
 
-"http://tempuri.org/IProductoService/ObtenerProductos"
+Revisar las cadenas de conexión de SOAP y REST.
 
-En Body, seleccionar raw y XML, y utilizar:
+Ejecutar VideojuegosSOAP desde Visual Studio.
 
-<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope
-    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:tem="http://tempuri.org/">
-    soap:Header/
-    soap:Body
-        tem:ObtenerProductos/
-    </soap:Body>
-</soap:Envelope>
+Ejecutar VideojuegosREST en otra instancia de Visual Studio.
 
-SOAPAction identifica la operación que se solicita. Al probar otro método se deben utilizar el SOAPAction y el Body correspondientes que están guardados en la colección. Las solicitudes que envían un objeto Producto utilizan el namespace http://schemas.datacontract.org/2004/07/VideojuegosSOAP.Models.
+Ejecutar Angular desde Visual Studio Code.
 
-Comprobar tanto el estado HTTP como el contenido XML. Un 200 OK no confirma por sí solo una inserción o eliminación: la respuesta debe contener el resultado esperado. Una solicitud GET al endpoint puede devolver una página informativa HTML sin ejecutar el CRUD.
+Abrir http://localhost:4200.
 
-6. Instalar dependencias y ejecutar Angular
+Probar las solicitudes de Postman con los backends activos.
 
-Abrir en Visual Studio Code la carpeta 04_Frontend_Angular/VideojuegosSOAPA-app.
+Los dos backends deben permanecer ejecutándose simultáneamente mientras se utiliza Angular.
 
-Abrir una terminal en esa carpeta; allí debe encontrarse package.json.
+Servicio SOAP
+
+Ejecución
+
+Abrir la solución VideojuegosSOAP.sln en Visual Studio.
+
+Revisar appsettings.json.
+
+Seleccionar el perfil http.
+
+Ejecutar el proyecto.
+
+Comprobar el WSDL en:
+
+http://localhost:5171/ProductoService.svc?wsdl
+
+Operaciones principales
+
+Operación
+
+Descripción
+
+ObtenerCategorias
+
+Devuelve las categorías registradas
+
+ObtenerProductos
+
+Devuelve todos los productos
+
+ObtenerProductoPorId
+
+Busca un producto por su identificador
+
+AgregarProducto
+
+Registra un producto
+
+ActualizarProducto
+
+Modifica un producto existente
+
+EliminarProducto
+
+Elimina un producto
+
+ObtenerProductosPorPrecio
+
+Filtra por precio mínimo y máximo
+
+ObtenerProductosPorCategoria
+
+Filtra por categoría
+
+Las solicitudes SOAP utilizan XML. La dirección y las acciones exactas pueden verificarse desde el WSDL y ya se encuentran configuradas en la colección de Postman.
+
+Flujo SOAP
+
+Angular
+   ↓ solicitud HTTP POST con XML
+ProductoService.svc
+   ↓ Entity Framework Core
+SQL Server
+   ↑ respuesta XML
+Angular transforma el XML y muestra los datos
+
+Servicio REST
+
+Ejecución
+
+Abrir VideojuegosREST en Visual Studio.
+
+Revisar la cadena de conexión.
+
+Seleccionar el perfil http.
+
+Ejecutar el proyecto.
+
+Abrir:
+
+http://localhost:5182/api/MovimientosInventario
+
+Si aparece:
+
+[]
+
+la API funciona correctamente, pero todavía no existen movimientos registrados.
+
+REST no utiliza WSDL. El WSDL pertenece únicamente al servicio SOAP.
+
+Endpoints
+
+Acción
+
+Método
+
+Endpoint
+
+Body
+
+Obtener lista
+
+GET
+
+/api/MovimientosInventario
+
+No
+
+Obtener registro
+
+GET
+
+/api/MovimientosInventario/{id}
+
+No
+
+Agregar entrada
+
+POST
+
+/api/MovimientosInventario/entrada
+
+Sí
+
+Agregar salida
+
+POST
+
+/api/MovimientosInventario/salida
+
+Sí
+
+Guardar registro
+
+POST
+
+/api/MovimientosInventario
+
+Sí
+
+Actualizar registro
+
+PUT
+
+/api/MovimientosInventario/{id}
+
+Sí
+
+Borrar registro
+
+DELETE
+
+/api/MovimientosInventario/{id}
+
+No
+
+Body para entrada o salida
+
+{
+  "idProducto": 10,
+  "cantidad": 5,
+  "observacion": "Movimiento de prueba de inventario"
+}
+
+Body para guardar o actualizar
+
+{
+  "idProducto": 10,
+  "tipoMovimiento": "ENTRADA",
+  "cantidad": 3,
+  "observacion": "Registro general de inventario"
+}
+
+Valores permitidos para tipoMovimiento:
+
+ENTRADA
+SALIDA
+
+Códigos de respuesta habituales
+
+Código
+
+Significado
+
+200 OK
+
+Consulta o actualización correcta
+
+201 Created
+
+Movimiento registrado correctamente
+
+204 No Content
+
+Movimiento eliminado correctamente
+
+400 Bad Request
+
+Datos o cantidad inválidos
+
+404 Not Found
+
+Producto o movimiento inexistente
+
+409 Conflict
+
+Conflicto al actualizar el inventario
+
+405 Method Not Allowed
+
+Se utilizó un método HTTP incorrecto
+
+Reglas del inventario
+
+Una entrada aumenta el stock.
+
+Una salida disminuye el stock.
+
+La cantidad debe ser mayor que cero.
+
+No se puede generar stock negativo.
+
+El producto debe existir y encontrarse activo.
+
+Al actualizar un movimiento se revierte primero el efecto anterior.
+
+Al eliminar un movimiento se revierte su efecto sobre el stock.
+
+El movimiento y el stock se guardan juntos en la base de datos.
+
+Frontend Angular
+
+Instalación
+
+Abrir la carpeta:
+
+FrontendAngular/VideojuegosSOAPA-app
 
 Instalar las dependencias:
 
 npm install
 
-Ejecutar el servidor de desarrollo:
+Ejecutar Angular:
 
 ng serve
 
-Si ng no se reconoce, pero Node.js, npm y las dependencias del proyecto están instalados, utilizar la CLI local:
+Abrir:
 
-npx ng serve
+http://localhost:4200
 
-Abrir http://localhost:4200 en el navegador.
+Módulos principales
 
-Comprobar que se carguen categorías y productos.
+Vista
 
-No es necesario crear un proyecto Angular nuevo. La entrega ya contiene el código fuente. Mantener package.json y package-lock.json para restaurar sus dependencias.
+Fuente
 
-El servicio src/app/services/producto.ts debe utilizar http://localhost:5171/ProductoService.svc. Program.cs permite el origen http://localhost:4200 mediante CORS. Si se cambia alguno de los puertos, se deben ajustar las direcciones relacionadas; iniciar Angular en otro puerto sin modificar CORS puede impedir la conexión.
+Inicio
 
-Operaciones SOAP disponibles
+Resumen integrado
 
-Operación
+Productos SOAP
 
-Parámetros
+ProductoService.svc
+
+Inventario REST
+
+api/MovimientosInventario
+
+API externa
+
+CheapShark
+
+Comparador
+
+Productos locales + ofertas externas
+
+Servicios Angular
+
+src/app/services/producto.ts
+src/app/services/movimiento-inventario.ts
+src/app/services/catalogo-externo.ts
+
+Modelos Angular
+
+src/app/model/producto.model.ts
+src/app/model/categoria.model.ts
+src/app/model/movimiento-inventario.model.ts
+src/app/model/juego-externo.model.ts
+
+Dependencias importantes
+
+El proyecto debe tener configurados:
+
+FormsModule, necesario para ngModel.
+
+HttpClient, necesario para realizar solicitudes HTTP.
+
+SweetAlert2, utilizado para mensajes y confirmaciones.
+
+Bootstrap, utilizado como apoyo para la estructura adaptable.
+
+API externa CheapShark
+
+Documentación
+
+https://apidocs.cheapshark.com/
+
+Endpoint utilizado
+
+GET https://www.cheapshark.com/api/1.0/deals
+
+Parámetros principales
+
+Parámetro
+
+Uso
+
+storeID=1
+
+Consulta ofertas de Steam
+
+pageNumber=0
+
+Solicita la primera página
+
+pageSize=12
+
+Limita la respuesta a 12 resultados
+
+sortBy=Deal Rating
+
+Ordena por calidad de la oferta
+
+title
+
+Filtra por título cuando existe una búsqueda
+
+Ejemplo:
+
+GET https://www.cheapshark.com/api/1.0/deals?storeID=1&pageNumber=0&pageSize=12&sortBy=Deal%20Rating
+
+Campos presentados
+
+Título.
+
+Imagen.
+
+Precio normal.
+
+Precio de oferta.
+
+Porcentaje de ahorro.
+
+Valoración de Steam.
+
+Puntuación de Metacritic, cuando está disponible.
+
+Enlace externo de la oferta.
+
+Consideraciones
+
+La consulta se realiza directamente desde Angular.
+
+No reemplaza los servicios SOAP o REST del proyecto.
+
+Sus resultados no se guardan en SQL Server.
+
+Requiere conexión a Internet.
+
+Las ofertas pueden cambiar con el tiempo.
+
+No requiere una clave API para las consultas implementadas.
+
+Comparación local y externa
+
+El comparador demuestra la integración de fuentes distintas dentro de una misma interfaz.
+
+Uso
+
+Abrir API externa.
+
+Esperar que se carguen las ofertas.
+
+Presionar Comparar con catálogo local en una tarjeta.
+
+El sistema selecciona el videojuego externo.
+
+Si existe una coincidencia de nombre, intenta seleccionar el producto local relacionado.
+
+Si no existe coincidencia, utiliza un producto local como referencia y permite cambiarlo.
+
+El panel muestra ambos registros lado contra lado.
+
+Datos locales
+
+Nombre.
+
+Descripción.
+
+Categoría.
+
+Stock.
+
+Estado.
+
+Precio local.
+
+Origen SQL Server y SOAP.
+
+Datos externos
+
+Nombre.
+
+Imagen.
+
+Precio normal.
+
+Precio de oferta.
+
+Descuento.
+
+Valoración.
+
+Origen CheapShark.
 
 Resultado
 
-ObtenerCategorias
+El sistema calcula la diferencia absoluta entre los precios e indica si el menor precio pertenece al catálogo local, a la oferta externa o si ambos son iguales.
 
-Ninguno
+La comparación es informativa. Los productos pueden pertenecer a ediciones o tiendas diferentes.
 
-Lista de categorías.
+Pruebas con Postman
 
-ObtenerProductos
+Importar la colección
 
-Ninguno
+Abrir Postman.
 
-Lista de productos.
+Seleccionar Import.
 
-ObtenerProducto
+Elegir:
 
-int id
+Postman/VideojuegosSOAP.postman_collection.json
 
-Producto encontrado o resultado nulo.
+Mantener SOAP y REST ejecutándose.
 
-AgregarProducto
+Verificar que los puertos coincidan con los configurados.
 
-Producto producto
+Pruebas SOAP
 
-Producto guardado con su ID generado.
+La colección incluye solicitudes XML para consultar, agregar, actualizar, eliminar y filtrar productos.
 
-ActualizarProducto
+Los encabezados necesarios para SOAP, como el tipo de contenido y la acción, deben conservarse como se encuentran configurados en la colección.
 
-Producto producto
+Pruebas REST
 
-Producto actualizado o resultado nulo si no existe.
+Para GET y DELETE no se utiliza Body.
 
-EliminarProducto
+Para POST y PUT:
 
-int id
+Abrir Body.
 
-true si elimina; false si no encuentra el registro.
+Seleccionar raw.
 
-ObtenerProductosPorPrecio
+Seleccionar JSON.
 
-decimal precioMinimo, decimal precioMaximo
+Pegar el objeto correspondiente.
 
-Productos entre ambos precios, incluyendo los límites.
+No es necesario agregar encabezados personalizados manualmente. Postman puede mostrar encabezados automáticos u ocultos cuando se selecciona JSON.
 
-ObtenerProductosPorCategoria
+Orden recomendado de pruebas REST
 
-int idCategoria
+Obtener lista.
 
-Productos de la categoría indicada.
+Agregar movimiento por entrada.
 
-Al agregar, se envía IdProducto=0 y SQL Server genera el identificador. Para actualizar o eliminar se utiliza el ID real devuelto por el servicio, no un número supuesto. La eliminación implementada es física: borra el registro, no se limita a cambiar Estado.
+Agregar movimiento por salida.
 
-La administración de categorías en esta versión es de consulta y selección; no se implementaron operaciones SOAP de alta, modificación o eliminación de categorías.
+Obtener un registro por ID.
 
-Funcionamiento de la aplicación
+Guardar un registro general.
 
-Angular envía una solicitud HTTP POST con un mensaje SOAP XML. CoreWCF identifica la operación según el contrato IProductoService y ejecuta su implementación en ProductoService. Esta clase utiliza VideojuegosDBContext y Entity Framework Core para acceder a SQL Server.
+Actualizar un registro.
 
-El backend devuelve XML. El servicio Angular interpreta ese XML mediante DOMParser, lo transforma en objetos Producto o Categoria y el componente actualiza la pantalla. Postman es un cliente alternativo para probar el mismo backend; no es un intermediario entre Angular y SQL Server.
+Borrar un registro.
 
-La interfaz permite registrar, editar y eliminar videojuegos, visualizar sus categorías, precios, stock y estado, aplicar filtros por categoría o rango de precios y limpiar los filtros. Las estadísticas representan los productos mostrados y la suma de su stock. Los filtros de categoría y precio se prueban como búsquedas independientes en esta versión.
+Obtener nuevamente la lista para comprobar el resultado.
 
-FormsModule habilita los enlaces ngModel de los formularios y provideHttpClient habilita las solicitudes HTTP. SweetAlert2 presenta mensajes y pide confirmación antes de eliminar. El frontend está preparado para ejecutarse en el navegador, sin SSR.
+Validaciones
 
-Orden de ejecución recomendado
+Productos
 
-Iniciar o comprobar el servicio de SQL Server.
+Nombre obligatorio.
 
-Restaurar la base o ejecutar su script, solamente en la instalación inicial.
+Descripción obligatoria.
 
-Revisar VideojuegosConnection en appsettings.json.
+Categoría obligatoria.
 
-Abrir la solución y restaurar las dependencias NuGet.
+Precio igual o mayor que cero.
 
-Ejecutar el backend con el perfil http y comprobar el WSDL.
+Stock igual o mayor que cero.
 
-Importar la colección de Postman y probar las consultas SOAP.
+Estado activo o inactivo.
 
-Abrir la carpeta Angular e instalar sus dependencias cuando sea necesario.
+Confirmación antes de eliminar.
 
-Ejecutar ng serve y abrir http://localhost:4200.
+Protección al eliminar productos relacionados con movimientos.
 
-Probar el registro, la edición, la eliminación y los filtros.
+Movimientos
 
-En las ejecuciones siguientes no se debe restaurar la base ni instalar dependencias nuevamente si ya están preparadas y no han cambiado. Basta con iniciar el backend y Angular.
+Producto obligatorio.
 
-Comprobación funcional
+Tipo ENTRADA o SALIDA.
 
-Consultar categorías y productos en Postman y verificar los datos en SQL Server.
+Cantidad mayor que cero.
 
-Registrar un producto de prueba y anotar su ID.
+Observación de máximo 500 caracteres.
 
-Consultar ese ID, modificar sus datos y comprobar que se guardaron.
+Producto existente y activo.
 
-Probar un rango de precios y una categoría conocidos.
+Validación de stock suficiente.
 
-Eliminar únicamente el producto de prueba, previa confirmación.
+Protección contra valores superiores al límite permitido.
 
-Repetir el registro, edición, filtros y eliminación desde Angular.
+Confirmación antes de borrar.
 
-No pulsar repetidamente Registrar si la respuesta tarda: cada solicitud puede insertar otro registro. Ante una respuesta dudosa, consultar primero la lista antes de reenviar.
+Reversión del stock al actualizar o eliminar.
 
-Problemas frecuentes
+API externa
 
-Situación
+Indicador mientras se realiza la consulta.
 
-Comprobación
+Mensaje cuando no existen resultados.
 
-No se conecta con SQL Server
+Mensaje cuando ocurre un error de conexión.
 
-Verificar instancia, servicio activo, nombre de base y permisos de Windows.
+Botón para intentar nuevamente.
 
-Postman devuelve HTML
+Limpieza del texto de búsqueda.
 
-Confirmar POST, endpoint correcto y SOAPAction de la operación.
+Apertura segura de enlaces externos.
 
-WSDL funciona pero las consultas fallan
+Interfaz
 
-Revisar conexión a SQL Server y mensajes del backend.
+Navegación entre todas las pantallas.
 
-Angular no conoce ngModel o ngValue
+Mensajes de éxito con SweetAlert2.
 
-Confirmar FormsModule en imports de AppModule.
+Mensajes de advertencia y error.
 
-Un archivo de modelo no es un módulo
+Confirmaciones de eliminación.
 
-Verificar export interface y que el archivo esté guardado.
+Diseño adaptable.
 
-Angular no conecta, pero Postman sí
+Separación visual entre datos locales y externos.
 
-Revisar backend activo, URL del servicio y origen permitido por CORS.
+Pruebas funcionales
 
-No se reconoce npm
+Antes de entregar, verificar:
 
-Comprobar instalación de Node.js y abrir una terminal nueva.
+SQL Server está activo.
 
-No se reconoce ng
+La base contiene las tres tablas.
 
-Instalar dependencias y probar npx ng serve dentro del proyecto.
+El servicio SOAP abre su WSDL.
 
-Puerto ocupado
+El servicio REST devuelve 200 OK.
 
-Detener el otro proceso o ajustar coherentemente los puertos y CORS.
+Angular inicia sin errores de compilación.
 
-Archivos omitidos en la entrega
+La consola del navegador no presenta errores.
 
-Para reducir el tamaño del ZIP se omiten node_modules y .angular del frontend, y bin, obj y .vs del backend. Son dependencias, cachés o resultados de compilación que pueden regenerarse. No se omiten el código fuente, package.json, package-lock.json, .csproj ni el archivo de solución.
+Se cargan las categorías y productos.
 
-La entrega corresponde a un proyecto académico de ejecución local. No incluye autenticación de usuarios ni una configuración lista para publicación en Internet.
+Se puede agregar y actualizar un producto.
 
-Detener el sistema
+Los filtros SOAP funcionan.
 
-Angular: Ctrl + C en la terminal donde se ejecuta ng serve.
+Se puede registrar una entrada.
 
-Backend: detener desde Visual Studio si está en depuración, o finalizar el proceso/consola iniciado con Ctrl + F5.
+La entrada aumenta el stock.
 
-Detener los procesos no elimina los registros de SQL Server. Conservar las carpetas originales y el ZIP de respaldo.
+Se puede registrar una salida.
+
+La salida disminuye el stock.
+
+Una salida excesiva muestra un error.
+
+Se puede actualizar un movimiento.
+
+Se puede eliminar un movimiento.
+
+CheapShark devuelve ofertas.
+
+El buscador externo funciona.
+
+El comparador muestra los dos productos lado contra lado.
+
+La diferencia de precios es correcta.
+
+La colección de Postman puede importarse.
+
+Solución de problemas
+
+ng o npm no se reconoce
+
+Instalar Node.js y Angular CLI. Después cerrar y volver a abrir PowerShell o Visual Studio Code.
+
+npm install -g @angular/cli
+
+Can't bind to ngModel
+
+Confirmar que FormsModule esté importado en el módulo Angular correspondiente.
+
+Property ... does not exist on type App
+
+El HTML está llamando a un método que no existe, está repetido o quedó fuera de la clase App. Revisar el nombre y guardar app.ts.
+
+Error de CORS
+
+Confirmar que REST permita http://localhost:4200 y que el middleware de CORS esté activado.
+
+405 Method Not Allowed
+
+Revisar el método seleccionado en Postman:
+
+Entrada y salida: POST.
+
+Actualizar: PUT.
+
+Borrar: DELETE.
+
+Consultar: GET.
+
+REST devuelve []
+
+La API funciona, pero la tabla de movimientos no contiene registros.
+
+No carga SOAP
+
+Comprobar que Visual Studio continú ejecutando el servicio.
+
+Revisar el puerto 5171.
+
+Abrir el WSDL.
+
+Revisar la cadena de conexión.
+
+No carga REST
+
+Comprobar que VideojuegosREST esté ejecutándose.
+
+Revisar el puerto 5182.
+
+Abrir el endpoint GET en el navegador.
+
+Revisar CORS y la cadena de conexión.
+
+No carga CheapShark
+
+Revisar la conexión a Internet.
+
+Probar sin texto de búsqueda.
+
+Revisar la consola del navegador.
+
+Presionar Intentar nuevamente.
+
+Los estilos no cambian
+
+Guardar app.css.
+
+Confirmar que styleUrl apunte a ./app.css.
+
+Esperar que Angular compile.
+
+Actualizar el navegador con Ctrl + F5.
+
+Preparación de la entrega
+
+Archivos obligatorios
+
+Enlace del repositorio GitHub.
+
+README.md.
+
+Video demostrativo de máximo 5 minutos.
+
+Script de la base de datos.
+
+Colección de Postman.
+
+Proyectos SOAP y REST.
+
+Proyecto Angular.
+
+No subir al repositorio
+
+node_modules/
+bin/
+obj/
+.vs/
+.angular/
+dist/
+.vscode/
+
+Tampoco se deben publicar:
+
+Contraseñas.
+
+Tokens.
+
+Claves API privadas.
+
+Cadenas de conexión reales con credenciales.
+
+Archivos temporales del sistema.
+
+.gitignore recomendado
+
+# Angular
+node_modules/
+dist/
+.angular/
+
+# Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# Visual Studio Code
+.vscode/
+
+# Sistema
+Thumbs.db
+.DS_Store
+
+# Variables y secretos
+.env
+.env.*
+appsettings.Development.json
+
+Antes de ignorar appsettings.Development.json, verificar que el proyecto pueda ejecutarse con un archivo de configuración de ejemplo o con instrucciones claras en este README.
+
+Guion sugerido para el video
+
+El video debe durar menos de 5 minutos.
+
+Orden recomendado
+
+Presentar el nombre y objetivo del proyecto.
+
+Mostrar la arquitectura en la página principal.
+
+Ingresar en SOAP y realizar una consulta.
+
+Ingresar en REST y registrar una entrada o salida.
+
+Comprobar el cambio del stock.
+
+Abrir la API externa y realizar una búsqueda.
+
+Seleccionar una oferta y mostrar la comparación.
+
+Explicar la diferencia entre datos locales y externos.
+
+Cerrar con las tecnologías utilizadas.
+
+Servicios que deben estar activos
+
+SOAP:    http://localhost:5171
+REST:    http://localhost:5182
+Angular: http://localhost:4200
+
+Estado del proyecto
+
+Componente
+
+Estado
+
+Base de datos
+
+Completado
+
+Servicio SOAP
+
+Completado
+
+API REST
+
+Completado
+
+Frontend Angular
+
+Completado
+
+API externa
+
+Completado
+
+Comparador
+
+Completado
+
+Pruebas Postman
+
+Completado
+
+Diseño Matrix/Gamer
+
+Completado
+
+Autor
+
+Said Alexander Encalada Landeta
+Carrera: Desarrollo de Software
+Asignatura: Programación Web I
+Paralelo: Tercero A Matutino
+Año: 2026
+
+Licencia
+
+Proyecto desarrollado con fines académicos para la asignatura Programación Web I.
+
+<div align="center">
+
+GAMECORE — SOAP + REST + ANGULAR + API EXTERNA
+
+</div>
