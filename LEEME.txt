@@ -1,0 +1,652 @@
+Videojuegos SOAP
+
+Proyecto desarrollado para la asignatura Programación Web 1.
+
+Descripción
+
+El proyecto implementa un sistema de gestión de inventario de videojuegos mediante una aplicación web Angular, un servicio SOAP desarrollado con ASP.NET Core y CoreWCF, y una base de datos SQL Server. Entity Framework Core se utiliza para consultar y modificar la información almacenada.
+
+Cada producto representa un videojuego con nombre, descripción, precio, stock, estado y categoría. El stock corresponde a la cantidad de unidades disponibles; las categorías agrupan los videojuegos en Acción, Deportes, Estrategia, Rol y Terror.
+
+El servicio permite consultar categorías y productos, buscar un producto por su identificador, registrar, actualizar y eliminar productos, y realizar búsquedas por rango de precios o categoría. Las operaciones pueden probarse directamente en Postman. La interfaz Angular permite administrar el inventario desde el navegador y utiliza un diseño oscuro con detalles verdes.
+
+Tecnologías utilizadas
+
+Tecnología o herramienta
+
+Uso en el proyecto
+
+C# y ASP.NET Core
+
+Desarrollo y ejecución del backend.
+
+CoreWCF
+
+Publicación del servicio SOAP.
+
+SOAP 1.1 y XML
+
+Formato de mensajes entre clientes y backend.
+
+Entity Framework Core
+
+Acceso a las tablas de SQL Server.
+
+SQL Server
+
+Almacenamiento de categorías y productos.
+
+SQL Server Management Studio
+
+Administración y respaldo de la base.
+
+Angular y TypeScript
+
+Lógica y componentes del frontend.
+
+HTML y CSS
+
+Estructura y diseño de la interfaz.
+
+Bootstrap
+
+Estilos y distribución de componentes visuales.
+
+SweetAlert2
+
+Alertas y confirmaciones.
+
+Node.js y npm
+
+Instalación de dependencias y herramientas de Angular.
+
+Postman
+
+Pruebas independientes de las operaciones SOAP.
+
+Visual Studio
+
+Edición y ejecución del backend.
+
+Visual Studio Code
+
+Edición y ejecución del frontend.
+
+Los paquetes NuGet principales son CoreWCF.Http, CoreWCF.Primitives, Microsoft.EntityFrameworkCore.SqlServer y Microsoft.EntityFrameworkCore.Tools. El frontend también incluye las dependencias de Angular Material y animaciones instaladas durante el desarrollo. Las versiones concretas están registradas en el archivo .csproj del backend y en package.json/package-lock.json del frontend.
+
+Requisitos previos
+
+Una instancia de SQL Server en funcionamiento y SQL Server Management Studio.
+
+Visual Studio con las herramientas de desarrollo ASP.NET y el SDK de .NET compatible con el TargetFramework indicado en VideojuegosSOAP.csproj.
+
+Node.js y npm compatibles con la versión de Angular declarada en package.json.
+
+Visual Studio Code o un editor equivalente.
+
+Postman para realizar las pruebas SOAP.
+
+Conexión a Internet durante la restauración inicial de los paquetes NuGet y npm.
+
+No es necesario instalar versiones nuevas de todos los paquetes: se deben restaurar las dependencias declaradas en el proyecto.
+
+Estructura de la entrega
+
+La carpeta principal se denomina Proyecto_VideojuegosSOAP.
+
+Ubicación relativa a la carpeta principal
+
+Contenido
+
+01_Base_de_Datos/Pro_videojuegosSOAP.bak
+
+Respaldo completo de SQL Server.
+
+01_Base_de_Datos/Pro_videojuegosSOAP.sql
+
+Script de estructura y datos exportados.
+
+02_Backend_VisualStudio/VideojuegosSOAP.sln
+
+Solución para abrir en Visual Studio.
+
+02_Backend_VisualStudio/VideojuegosSOAP/
+
+Código fuente del backend y archivo .csproj.
+
+03_Postman/VideojuegosSOAP.postman_collection.json
+
+Colección de solicitudes SOAP.
+
+04_Frontend_Angular/VideojuegosSOAPA-app/
+
+Código fuente y configuración de Angular.
+
+README.md
+
+Documentación e instrucciones de ejecución.
+
+Si la solución está guardada dentro de una carpeta adicional, se debe abrir el archivo VideojuegosSOAP.sln que contiene la entrega, conservando la relación de carpetas con su proyecto. Si Visual Studio la guardó en formato .slnx, se abre ese archivo equivalente.
+
+Archivos principales del backend
+
+Archivo, dentro del proyecto VideojuegosSOAP
+
+Función
+
+Models/Categoria.cs
+
+Modelo de categoría.
+
+Models/Producto.cs
+
+Modelo de producto.
+
+Data/VideojuegosDBContext.cs
+
+Contexto de Entity Framework y conjuntos Categorias/Productos.
+
+Services/IProductoService.cs
+
+Contrato que declara las operaciones SOAP.
+
+Services/ProductoService.cs
+
+Implementación de las consultas y del CRUD.
+
+appsettings.json
+
+Configuración y cadena de conexión.
+
+Program.cs
+
+Registro de servicios, contexto, endpoint SOAP, WSDL y CORS.
+
+Properties/launchSettings.json
+
+Perfiles de ejecución y puertos locales.
+
+VideojuegosSOAP.csproj
+
+Framework de destino y dependencias NuGet.
+
+Archivos principales del frontend
+
+Archivo, dentro de VideojuegosSOAPA-app
+
+Función
+
+src/app/model/producto.model.ts
+
+Estructura de los productos en TypeScript.
+
+src/app/model/categoria.model.ts
+
+Estructura de las categorías en TypeScript.
+
+src/app/services/producto.ts
+
+Envío de XML SOAP e interpretación de las respuestas.
+
+src/app/app.ts
+
+Carga de datos, formularios, CRUD y filtros.
+
+src/app/app.html
+
+Estructura visual y enlaces con las propiedades del componente.
+
+src/app/app.css
+
+Diseño del componente principal.
+
+src/styles.css
+
+Estilos globales e importación de Bootstrap.
+
+src/app/app-module.ts
+
+Registro del componente, FormsModule, HttpClient y animaciones.
+
+src/app/app-routing-module.ts
+
+Configuración del enrutamiento.
+
+angular.json
+
+Configuración de construcción y ejecución.
+
+package.json y package-lock.json
+
+Dependencias y versiones del frontend.
+
+Base de datos
+
+Nombre: Pro_videojuegosSOAP.
+
+Tabla Categorias
+
+Campo
+
+Tipo SQL
+
+Descripción
+
+IdCategoria
+
+INT IDENTITY(1,1)
+
+Clave primaria autogenerada.
+
+Nombre
+
+VARCHAR(100)
+
+Nombre obligatorio de la categoría.
+
+Descripcion
+
+VARCHAR(250), admite NULL
+
+Descripción de la categoría.
+
+Estado
+
+BIT
+
+Estado activo o inactivo; valor predeterminado 1.
+
+Tabla Productos
+
+Campo
+
+Tipo SQL
+
+Descripción
+
+IdProducto
+
+INT IDENTITY(1,1)
+
+Clave primaria autogenerada.
+
+Nombre
+
+VARCHAR(150)
+
+Nombre obligatorio del videojuego.
+
+Descripcion
+
+VARCHAR(300), admite NULL
+
+Descripción del videojuego.
+
+Precio
+
+DECIMAL(10,2)
+
+Precio con dos decimales, no negativo.
+
+Stock
+
+INT
+
+Cantidad de unidades disponibles, no negativa.
+
+Estado
+
+BIT
+
+Estado activo o inactivo; valor predeterminado 1.
+
+IdCategoria
+
+INT
+
+Clave foránea hacia Categorias.IdCategoria.
+
+La relación es de uno a muchos: una categoría puede tener varios productos, mientras que cada producto pertenece a una categoría. SQL Server verifica la relación mediante una clave foránea. Los identificadores se generan automáticamente y las restricciones CHECK impiden precios y cantidades de stock negativos.
+
+Los datos iniciales incluyen cinco categorías y videojuegos como God of War Ragnarök, EA Sports FC 26, Age of Empires IV, Elden Ring, Resident Evil 4 y Forza Horizon 5. Los precios son datos de prueba académicos, no precios comerciales verificados. El número de registros del respaldo puede variar por las pruebas de inserción y eliminación realizadas.
+
+Instrucciones de instalación y uso
+
+1. Extraer el proyecto
+
+Extraer completamente el ZIP en una carpeta local antes de abrir la solución o ejecutar comandos. No trabajar directamente dentro del archivo comprimido. Usar una ruta sencilla, sin el carácter #; por ejemplo, C:\CSharp\Proyecto_VideojuegosSOAP.
+
+2. Preparar la base de datos
+
+Abrir SQL Server Management Studio y conectarse a la instancia que se utilizará. Elegir solamente una de las siguientes alternativas.
+
+Alternativa A: restaurar el respaldo .bak
+
+Clic derecho sobre Bases de datos y seleccionar Restaurar base de datos.
+
+Seleccionar Dispositivo y agregar 01_Base_de_Datos/Pro_videojuegosSOAP.bak.
+
+Verificar que el destino sea Pro_videojuegosSOAP.
+
+Revisar que las ubicaciones de los archivos de datos y registro sean válidas en el equipo de destino.
+
+Confirmar y esperar el mensaje de restauración completada.
+
+El servicio de SQL Server debe tener acceso al archivo de respaldo. Un respaldo de una versión más reciente de SQL Server no puede restaurarse directamente en una versión anterior. Si existe una incompatibilidad, utilizar el script y revisar su compatibilidad con el servidor de destino.
+
+Alternativa B: ejecutar el script .sql
+
+Abrir 01_Base_de_Datos/Pro_videojuegosSOAP.sql en SQL Server Management Studio.
+
+Revisar las instrucciones CREATE DATABASE, las rutas físicas y el nivel de compatibilidad, si aparecen en el script exportado.
+
+Ajustar las rutas o configuraciones dependientes del equipo de origen cuando sea necesario.
+
+Ejecutar el script en la instancia seleccionada.
+
+Actualizar el Explorador de objetos y comprobar la base y las tablas.
+
+No ejecutar ambas alternativas sobre la misma base ni repetir el script indiscriminadamente. Si ya existe una base con ese nombre, respaldarla y revisar la situación antes de sobrescribir datos.
+
+Para comprobar los registros:
+
+USE Pro_videojuegosSOAP;
+GO
+
+SELECT * FROM dbo.Categorias;
+SELECT * FROM dbo.Productos;
+
+3. Configurar la conexión del backend
+
+Abrir VideojuegosSOAP.sln en Visual Studio. En el proyecto, revisar appsettings.json:
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "VideojuegosConnection": "Server=localhost;Database=Pro_videojuegosSOAP;Trusted_Connection=True;TrustServerCertificate=True;"
+  }
+}
+
+Cambiar solamente el valor situado después de Server= por el nombre exacto utilizado para conectarse en SQL Server Management Studio. No colocar comillas adicionales dentro de la cadena.
+
+Ejemplos de servidor dentro de JSON:
+
+Server=localhost;
+Server=.;
+Server=NOMBRE_DEL_EQUIPO;
+Server=NOMBRE_DEL_EQUIPO\\SQLEXPRESS;
+
+En una instancia con nombre se escriben dos barras invertidas dentro de JSON para representar una sola. Mantener Database=Pro_videojuegosSOAP y la clave VideojuegosConnection, porque Program.cs utiliza esa clave para obtener la conexión.
+
+Trusted_Connection=True utiliza la autenticación de Windows: la cuenta que ejecuta el backend debe tener permisos en SQL Server. Si se requiere autenticación SQL, la cadena debe adaptarse a esa configuración; no se deben publicar contraseñas en la entrega o en un repositorio público. TrustServerCertificate=True forma parte de la configuración local de desarrollo, no de una recomendación de seguridad para producción.
+
+4. Restaurar dependencias y ejecutar el backend
+
+Esperar a que Visual Studio restaure los paquetes NuGet. Si no lo hace, utilizar Restaurar paquetes NuGet desde la solución.
+
+Compilar la solución con Ctrl + Shift + B y corregir cualquier error antes de ejecutar.
+
+Seleccionar el perfil http.
+
+Ejecutar con Ctrl + F5 o con el botón de inicio.
+
+Mantener el backend ejecutándose durante las pruebas de Postman y Angular.
+
+El perfil http de Properties/launchSettings.json utiliza el puerto 5171.
+
+Recurso
+
+Dirección
+
+Endpoint SOAP
+
+http://localhost:5171/ProductoService.svc
+
+Documento WSDL
+
+http://localhost:5171/ProductoService.svc?wsdl
+
+Abrir el WSDL en el navegador para comprobar que el servicio publica sus operaciones y tipos. El WSDL no demuestra por sí solo que la base esté conectada; esto se comprueba al ejecutar una consulta SOAP.
+
+La dirección /ProductoService.svc se registra en Program.cs mediante BasicHttpBinding; no requiere un archivo físico .svc. La raíz http://localhost:5171 puede mostrar un 404 porque no es la página de la aplicación.
+
+5. Importar y probar la colección de Postman
+
+Abrir Postman y seleccionar Import.
+
+Importar 03_Postman/VideojuegosSOAP.postman_collection.json.
+
+Abrir la colección VideojuegosSOAP.
+
+Verificar el método POST y la dirección del endpoint.
+
+Ejecutar primero Obtener Categorías y Obtener Productos.
+
+Configuración de una solicitud para obtener productos:
+
+Método: POST
+URL: http://localhost:5171/ProductoService.svc
+
+Header
+
+Valor
+
+Content-Type
+
+text/xml;charset=utf-8
+
+SOAPAction
+
+"http://tempuri.org/IProductoService/ObtenerProductos"
+
+En Body, seleccionar raw y XML, y utilizar:
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:tem="http://tempuri.org/">
+    soap:Header/
+    soap:Body
+        tem:ObtenerProductos/
+    </soap:Body>
+</soap:Envelope>
+
+SOAPAction identifica la operación que se solicita. Al probar otro método se deben utilizar el SOAPAction y el Body correspondientes que están guardados en la colección. Las solicitudes que envían un objeto Producto utilizan el namespace http://schemas.datacontract.org/2004/07/VideojuegosSOAP.Models.
+
+Comprobar tanto el estado HTTP como el contenido XML. Un 200 OK no confirma por sí solo una inserción o eliminación: la respuesta debe contener el resultado esperado. Una solicitud GET al endpoint puede devolver una página informativa HTML sin ejecutar el CRUD.
+
+6. Instalar dependencias y ejecutar Angular
+
+Abrir en Visual Studio Code la carpeta 04_Frontend_Angular/VideojuegosSOAPA-app.
+
+Abrir una terminal en esa carpeta; allí debe encontrarse package.json.
+
+Instalar las dependencias:
+
+npm install
+
+Ejecutar el servidor de desarrollo:
+
+ng serve
+
+Si ng no se reconoce, pero Node.js, npm y las dependencias del proyecto están instalados, utilizar la CLI local:
+
+npx ng serve
+
+Abrir http://localhost:4200 en el navegador.
+
+Comprobar que se carguen categorías y productos.
+
+No es necesario crear un proyecto Angular nuevo. La entrega ya contiene el código fuente. Mantener package.json y package-lock.json para restaurar sus dependencias.
+
+El servicio src/app/services/producto.ts debe utilizar http://localhost:5171/ProductoService.svc. Program.cs permite el origen http://localhost:4200 mediante CORS. Si se cambia alguno de los puertos, se deben ajustar las direcciones relacionadas; iniciar Angular en otro puerto sin modificar CORS puede impedir la conexión.
+
+Operaciones SOAP disponibles
+
+Operación
+
+Parámetros
+
+Resultado
+
+ObtenerCategorias
+
+Ninguno
+
+Lista de categorías.
+
+ObtenerProductos
+
+Ninguno
+
+Lista de productos.
+
+ObtenerProducto
+
+int id
+
+Producto encontrado o resultado nulo.
+
+AgregarProducto
+
+Producto producto
+
+Producto guardado con su ID generado.
+
+ActualizarProducto
+
+Producto producto
+
+Producto actualizado o resultado nulo si no existe.
+
+EliminarProducto
+
+int id
+
+true si elimina; false si no encuentra el registro.
+
+ObtenerProductosPorPrecio
+
+decimal precioMinimo, decimal precioMaximo
+
+Productos entre ambos precios, incluyendo los límites.
+
+ObtenerProductosPorCategoria
+
+int idCategoria
+
+Productos de la categoría indicada.
+
+Al agregar, se envía IdProducto=0 y SQL Server genera el identificador. Para actualizar o eliminar se utiliza el ID real devuelto por el servicio, no un número supuesto. La eliminación implementada es física: borra el registro, no se limita a cambiar Estado.
+
+La administración de categorías en esta versión es de consulta y selección; no se implementaron operaciones SOAP de alta, modificación o eliminación de categorías.
+
+Funcionamiento de la aplicación
+
+Angular envía una solicitud HTTP POST con un mensaje SOAP XML. CoreWCF identifica la operación según el contrato IProductoService y ejecuta su implementación en ProductoService. Esta clase utiliza VideojuegosDBContext y Entity Framework Core para acceder a SQL Server.
+
+El backend devuelve XML. El servicio Angular interpreta ese XML mediante DOMParser, lo transforma en objetos Producto o Categoria y el componente actualiza la pantalla. Postman es un cliente alternativo para probar el mismo backend; no es un intermediario entre Angular y SQL Server.
+
+La interfaz permite registrar, editar y eliminar videojuegos, visualizar sus categorías, precios, stock y estado, aplicar filtros por categoría o rango de precios y limpiar los filtros. Las estadísticas representan los productos mostrados y la suma de su stock. Los filtros de categoría y precio se prueban como búsquedas independientes en esta versión.
+
+FormsModule habilita los enlaces ngModel de los formularios y provideHttpClient habilita las solicitudes HTTP. SweetAlert2 presenta mensajes y pide confirmación antes de eliminar. El frontend está preparado para ejecutarse en el navegador, sin SSR.
+
+Orden de ejecución recomendado
+
+Iniciar o comprobar el servicio de SQL Server.
+
+Restaurar la base o ejecutar su script, solamente en la instalación inicial.
+
+Revisar VideojuegosConnection en appsettings.json.
+
+Abrir la solución y restaurar las dependencias NuGet.
+
+Ejecutar el backend con el perfil http y comprobar el WSDL.
+
+Importar la colección de Postman y probar las consultas SOAP.
+
+Abrir la carpeta Angular e instalar sus dependencias cuando sea necesario.
+
+Ejecutar ng serve y abrir http://localhost:4200.
+
+Probar el registro, la edición, la eliminación y los filtros.
+
+En las ejecuciones siguientes no se debe restaurar la base ni instalar dependencias nuevamente si ya están preparadas y no han cambiado. Basta con iniciar el backend y Angular.
+
+Comprobación funcional
+
+Consultar categorías y productos en Postman y verificar los datos en SQL Server.
+
+Registrar un producto de prueba y anotar su ID.
+
+Consultar ese ID, modificar sus datos y comprobar que se guardaron.
+
+Probar un rango de precios y una categoría conocidos.
+
+Eliminar únicamente el producto de prueba, previa confirmación.
+
+Repetir el registro, edición, filtros y eliminación desde Angular.
+
+No pulsar repetidamente Registrar si la respuesta tarda: cada solicitud puede insertar otro registro. Ante una respuesta dudosa, consultar primero la lista antes de reenviar.
+
+Problemas frecuentes
+
+Situación
+
+Comprobación
+
+No se conecta con SQL Server
+
+Verificar instancia, servicio activo, nombre de base y permisos de Windows.
+
+Postman devuelve HTML
+
+Confirmar POST, endpoint correcto y SOAPAction de la operación.
+
+WSDL funciona pero las consultas fallan
+
+Revisar conexión a SQL Server y mensajes del backend.
+
+Angular no conoce ngModel o ngValue
+
+Confirmar FormsModule en imports de AppModule.
+
+Un archivo de modelo no es un módulo
+
+Verificar export interface y que el archivo esté guardado.
+
+Angular no conecta, pero Postman sí
+
+Revisar backend activo, URL del servicio y origen permitido por CORS.
+
+No se reconoce npm
+
+Comprobar instalación de Node.js y abrir una terminal nueva.
+
+No se reconoce ng
+
+Instalar dependencias y probar npx ng serve dentro del proyecto.
+
+Puerto ocupado
+
+Detener el otro proceso o ajustar coherentemente los puertos y CORS.
+
+Archivos omitidos en la entrega
+
+Para reducir el tamaño del ZIP se omiten node_modules y .angular del frontend, y bin, obj y .vs del backend. Son dependencias, cachés o resultados de compilación que pueden regenerarse. No se omiten el código fuente, package.json, package-lock.json, .csproj ni el archivo de solución.
+
+La entrega corresponde a un proyecto académico de ejecución local. No incluye autenticación de usuarios ni una configuración lista para publicación en Internet.
+
+Detener el sistema
+
+Angular: Ctrl + C en la terminal donde se ejecuta ng serve.
+
+Backend: detener desde Visual Studio si está en depuración, o finalizar el proceso/consola iniciado con Ctrl + F5.
+
+Detener los procesos no elimina los registros de SQL Server. Conservar las carpetas originales y el ZIP de respaldo.
